@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>Cek Area Paket XL Akrab | ZynQora</title>
+<style>
+:root{--bg:#0b1220;--panel:#121c2e;--panel2:#18253a;--text:#eef4ff;--muted:#9aabc4;--line:#293952;--accent:#38bdf8;--accent2:#2563eb}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#15375a 0,transparent 35%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh;padding:24px 14px}
+.wrap{max-width:900px;margin:auto}.hero{text-align:center;padding:22px 8px 24px}.logo{width:58px;height:58px;border-radius:18px;margin:0 auto 14px;background:linear-gradient(135deg,#38bdf8,#2563eb);display:grid;place-items:center;font-size:28px;box-shadow:0 12px 35px #0284c744}.hero h1{font-size:clamp(25px,5vw,38px);line-height:1.15;margin:0 0 10px}.hero p{margin:0;color:var(--muted);font-size:14px}
+.card{background:linear-gradient(180deg,#142035,#101a2b);border:1px solid var(--line);border-radius:22px;padding:clamp(16px,4vw,26px);box-shadow:0 18px 50px #0003}
+label{display:block;font-weight:650;font-size:14px;margin:0 0 8px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{min-width:0}select,input{width:100%;background:#0b1424;color:var(--text);border:1px solid #344760;border-radius:12px;padding:14px 13px;font:inherit;outline:none}select:focus,input:focus{border-color:var(--accent);box-shadow:0 0 0 3px #38bdf822}input::placeholder{color:#7588a3}.hint{font-size:12px;color:var(--muted);margin-top:7px}
+.result{display:none;margin-top:20px;border:1px solid var(--line);border-radius:17px;padding:19px;background:#0b1424}.result.show{display:block}.result-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.result h2{font-size:17px;margin:0}.area{display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:#123d36;color:#86efac;border:1px solid #226b59;padding:9px 14px;font-weight:800}.area.a1{background:#123b32;color:#86efac}.area.a2{background:#122e50;color:#93c5fd;border-color:#24568c}.area.a3{background:#46320e;color:#fde68a;border-color:#80601c}.area.a4{background:#421d2a;color:#fda4af;border-color:#81354b}.result p{color:var(--muted);margin:13px 0 0;font-size:14px;line-height:1.6}.empty{color:var(--muted);font-size:14px;margin:18px 0 0}.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.stat{background:#0b1424;border:1px solid var(--line);padding:11px 14px;border-radius:12px;flex:1;min-width:130px}.stat strong{display:block;font-size:18px}.stat span{color:var(--muted);font-size:12px}
+.details{margin-top:18px}.details summary{cursor:pointer;color:#b8c8df;font-weight:650;padding:10px 0}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:12px}table{width:100%;border-collapse:collapse;min-width:500px;font-size:13px}th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line)}th{background:#17263c;color:#cfe3ff;position:sticky;top:0}td{color:#d9e4f5}tr:last-child td{border-bottom:0}.foot{text-align:center;color:#7588a3;font-size:12px;margin:20px 0 0;line-height:1.6}.reset{margin-top:12px;background:transparent;color:#b8c8df;border:1px solid #344760;border-radius:10px;padding:9px 13px;cursor:pointer}.reset:hover{background:#1a2a40}.contact-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;background:linear-gradient(135deg,#0ea5e9,#2563eb);color:#fff;font-weight:750;padding:11px 15px;border-radius:11px;box-shadow:0 8px 22px #2563eb33;transition:transform .15s,filter .15s}.contact-btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+@media(max-width:600px){body{padding:12px}.hero{padding-top:16px}.fields{grid-template-columns:1fr}.card{border-radius:18px}.result-top{align-items:flex-start}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="hero">
+    <div class=""></div>
+    <h1>Cek Area Paket XL Akrab</h1>
+    <p>Cari provinsi dan kota/kabupaten untuk melihat area paket.</p>
+    <div style="margin-top:12px;color:#7dd3fc;font-weight:800;letter-spacing:2px;font-size:13px">ZYNQORA CEK AREA</div>
+  </header>
+  <section class="card" aria-label="Form cek area">
+    <div class="fields">
+      <div class="field">
+        <label for="province">Provinsi</label>
+        <select id="province"><option value="">Pilih provinsi...</option></select>
+      </div>
+      <div class="field">
+        <label for="city">Kota/Kabupaten</label>
+        <select id="city" disabled><option value="">Pilih provinsi terlebih dahulu</option></select>
+      </div>
+    </div>
+    <div class="field" style="margin-top:16px">
+      <label for="search">Atau cari nama kota/kabupaten</label>
+      <input id="search" type="search" placeholder="Contoh: Kab. Bogor, Kota Bandung..." autocomplete="off">
+      <div class="hint">Ketik nama wilayah untuk mencari langsung dari seluruh data.</div>
+    </div>
+    <div id="result" class="result" aria-live="polite"></div>
+    <div id="empty" class="empty">Pilih wilayah atau ketik nama kota/kabupaten untuk mulai mengecek.</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px">
+      <button id="reset" class="reset" type="button" style="margin-top:0">Reset pencarian</button>
+      <a class="contact-btn" href="https://wa.me/6287824665922" target="_blank" rel="noopener noreferrer">Kontak Pembelian · ZynQora</a>
+    </div>
+    
+    <div class="stats">
+      <div class="stat"><strong id="totalCities">0</strong><span>Wilayah terdaftar</span></div>
+      <div class="stat"><strong>Area 1–4</strong><span>Kategori area tersedia</span></div>
+    </div>
+    <details class="details">
+      <summary>Lihat seluruh daftar area</summary>
+      <div class="tablewrap">
+        <table><thead><tr><th>Provinsi</th><th>Kota/Kabupaten</th><th>Area</th></tr></thead><tbody id="tableBody"></tbody></table>
+      </div>
+    </details>
+  </section>
+  <p class="foot">Data ditampilkan berdasarkan daftar yang dimasukkan ke website ini. Pastikan kecocokan area dengan ketentuan XL Akrab terbaru sebelum melakukan transaksi.<br><br>Website oleh <strong style="color:#7dd3fc">ZynQora</strong>.</p>
+</main>
+<script>
+const raw = [
+["Banten","Kota Tangerang Selatan, Kota Tangerang, Kab. Tangerang, Kab. Pandeglang, Kab. Lebak, Kab. Serang, Kota Serang, Kota Cilegon","Area 2"],
+["DI Yogyakarta","Kab. Kulon Progo, Kota Yogyakarta, Kab. Sleman, Kab. Bantul, Kab. Gunungkidul","Area 1"],
+["DKI Jakarta","Kota Jakarta Pusat, Kota Jakarta Selatan, Kota Jakarta Barat, Kota Jakarta Timur, Kota Jakarta Utara","Area 2"],
+["DKI Jakarta","Kab. Kepulauan Seribu","Area 3"],
+["Jawa Barat","Kab. Bandung, Kab. Kuningan, Kab. Purwakarta, Kota Bandung","Area 1"],
+["Jawa Barat","Kab. Bandung Barat, Kota Cimahi, Kab. Cirebon, Kota Cirebon, Kab. Indramayu, Kab. Subang","Area 2"],
+["Jawa Barat","Kab. Bogor, Kota Bogor, Kota Depok, Kota Bekasi, Kota Banjar, Kab. Ciamis, Kota Tasikmalaya, Kab. Majalengka, Kab. Sumedang, Kab. Bekasi, Kab. Tasikmalaya, Kab. Garut","Area 3"],
+["Jawa Barat","Kab. Cianjur, Kab. Pangandaran, Kab. Karawang, Kota Sukabumi, Kab. Sukabumi","Area 2"],
+["Jawa Tengah","Kab. Tegal, Kota Surakarta, Kota Tegal, Kab. Brebes, Kab. Kebumen, Kab. Pemalang, Kota Semarang","Area 2"],
+["Jawa Tengah","Kab. Boyolali, Kota Salatiga, Kab. Semarang, Kab. Cilacap, Kab. Grobogan, Kab. Kendal, Kab. Rembang","Area 3"],
+["Jawa Tengah","Kota Pekalongan, Kab. Pekalongan, Kab. Batang, Kab. Purbalingga, Kab. Kudus, Kab. Sukoharjo, Kab. Klaten, Kota Magelang, Kab. Banyumas, Kab. Magelang, Kab. Temanggung, Kab. Sragen, Kab. Banjarnegara, Kab. Karanganyar, Kab. Wonosobo, Kab. Jepara, Kab. Demak, Kab. Purworejo, Kab. Blora, Kab. Wonogiri, Kab. Pati","Area 4"],
+["Jawa Timur","Kota Probolinggo, Kab. Bangkalan, Kab. Sidoarjo, Kab. Banyuwangi, Kota Surabaya, Kab. Sampang, Kab. Pamekasan, Kab. Sumenep, Kab. Pacitan","Area 2"],
+["Jawa Timur","Kab. Lumajang, Kab. Probolinggo","Area 3"],
+["Jawa Timur","Kab. Jombang, Kota Blitar, Kab. Blitar, Kota Kediri, Kab. Lamongan, Kab. Kediri, Kab. Ngawi, Kab. Mojokerto, Kota Mojokerto, Kab. Magetan, Kab. Gresik, Kab. Tulungagung, Kab. Nganjuk, Kab. Pasuruan, Kota Pasuruan, Kab. Bojonegoro, Kab. Madiun, Kab. Bondowoso, Kab. Tuban, Kota Madiun, Kab. Situbondo, Kab. Jember, Kota Malang, Kab. Malang, Kab. Ponorogo, Kota Batu, Kab. Trenggalek","Area 4"],
+["Bengkulu","Kab. Seluma","Area 3"],
+["Bengkulu","Kab. Bengkulu Selatan, Kab. Kaur, Kab. Lebong, Kab. Rejang Lebong, Kab. Bengkulu Tengah, Kota Bengkulu, Kab. Bengkulu Utara, Kab. Kepahiang, Kab. Muko Muko","Area 4"],
+["Jambi","Kab. Batanghari, Kota Jambi, Kab. Tanjung Jabung Barat, Kab. Muaro Jambi, Kab. Sarolangun","Area 3"],
+["Jambi","Kab. Tanjung Jabung Timur, Kab. Kerinci, Kab. Bungo, Kab. Tebo, Kab. Merangin, Kota Sungai Penuh","Area 4"],
+["Kepulauan Bangka Belitung","Kab. Bangka Selatan, Kota Pangkal Pinang, Kab. Belitung, Kab. Belitung Timur","Area 2"],
+["Kepulauan Bangka Belitung","Kab. Bangka, Kab. Bangka Tengah, Kab. Bangka Barat","Area 3"],
+["Kepulauan Riau","Kota Batam","Area 2"],
+["Kepulauan Riau","Kab. Karimun, Kab. Bintan, Kota Tanjung Pinang","Area 3"],
+["Kepulauan Riau","Kab. Lingga, Kab. Kepulauan Anambas, Kab. Natuna","Area 4"],
+["Lampung","Kab. Lampung Tengah, Kab. Pringsewu, Kota Metro, Kab. Pesawaran, Kab. Lampung Selatan, Kota Bandar Lampung","Area 3"],
+["Lampung","Kab. Lampung Barat, Kab. Lampung Timur, Kab. Tulang Bawang Barat, Kab. Way Kanan, Kab. Tulang Bawang, Kab. Tanggamus, Kab. Pesisir Barat, Kab. Lampung Utara, Kab. Mesuji","Area 4"],
+["Nanggroe Aceh Darussalam","Kab. Aceh Barat Daya, Kab. Aceh Besar, Kota Sabang, Kab. Gayo Lues","Area 2"],
+["Nanggroe Aceh Darussalam","Kab. Aceh Jaya, Kab. Aceh Selatan, Kab. Aceh Tenggara, Kab. Nagan Raya, Kota Banda Aceh","Area 3"],
+["Nanggroe Aceh Darussalam","Kab. Aceh Barat, Kab. Aceh Singkil, Kab. Aceh Tamiang, Kab. Aceh Tengah, Kota Subulussalam, Kab. Bener Meriah, Kab. Aceh Utara, Kota Lhokseumawe, Kab. Pidie, Kab. Aceh Timur, Kab. Simeulue, Kota Langsa, Kab. Bireuen, Kab. Pidie Jaya","Area 4"],
+["Riau","Kota Pekanbaru","Area 2"],
+["Riau","Kab. Kuantan Singingi, Kab. Pelalawan, Kab. Kampar, Kab. Siak, Kota Dumai, Kab. Rokan Hilir, Kab. Indragiri Hulu, Kab. Kepulauan Meranti, Kab. Bengkalis","Area 3"],
+["Riau","Kab. Rokan Hulu, Kab. Indragiri Hilir","Area 4"],
+["Sumatera Barat","Kab. Kepulauan Mentawai","Area 2"],
+["Sumatera Barat","Kota Payakumbuh, Kota Padang Panjang, Kab. Sijunjung, Kab. Padang Pariaman, Kota Padang, Kab. Solok Selatan","Area 3"],
+["Sumatera Barat","Kab. Pasaman Barat, Kab. Pasaman, Kab. Lima Puluh Kota, Kab. Tanah Datar, Kab. Dharmasraya, Kota Solok, Kab. Agam, Kab. Solok, Kota Bukittinggi, Kota Pariaman, Kota Sawahlunto, Kab. Pesisir Selatan","Area 4"],
+["Sumatera Selatan","Kab. Ogan Komering Ilir, Kab. Penukal Abab Lematang Ilir, Kab. Banyuasin, Kota Palembang, Kab. Ogan Ilir","Area 3"],
+["Sumatera Selatan","Kab. Ogan Komering Ulu Timur, Kab. Ogan Komering Ulu Selatan, Kab. Ogan Komering Ulu, Kab. Musi Rawas, Kab. Musi Rawas Utara, Kab. Empat Lawang, Kota Pagar Alam, Kota Lubuk Linggau, Kab. Musi Banyuasin, Kab. Muara Enim, Kab. Lahat, Kota Prabumulih","Area 4"],
+["Sumatera Utara","Kab. Karo, Kota Medan, Kab. Dairi","Area 2"],
+["Sumatera Utara","Kota Binjai, Kota Tebing Tinggi, Kab. Serdang Bedagai, Kab. Langkat, Kab. Deli Serdang, Kab. Batu Bara, Kota Tanjung Balai, Kab. Asahan, Kota Gunungsitoli, Kab. Nias Barat, Kab. Nias Selatan, Kab. Nias Utara","Area 3"],
+["Sumatera Utara","Kab. Pakpak Bharat, Kab. Mandailing Natal, Kab. Padang Lawas, Kab. Labuhanbatu Utara, Kota Padangsidimpuan, Kab. Tapanuli Selatan, Kab. Labuhanbatu Selatan, Kab. Labuhanbatu, Kab. Tapanuli Utara, Kab. Padang Lawas Utara, Kab. Humbang Hasundutan, Kab. Simalungun, Kab. Toba Samosir, Kota Pematangsiantar, Kab. Tapanuli Tengah, Kab. Samosir, Kota Sibolga, Kab. Nias","Area 4"],
+["Kalimantan Barat","Kab. Sekadau, Kab. Kapuas Hulu, Kab. Sintang, Kab. Bengkayang, Kab. Melawi, Kab. Sambas, Kab. Sanggau, Kab. Kubu Raya, Kota Pontianak, Kab. Kayong Utara, Kab. Landak, Kab. Mempawah, Kota Singkawang, Kab. Ketapang","Area 4"],
+["Kalimantan Selatan","Kab. Hulu Sungai Tengah, Kab. Tapin, Kab. Hulu Sungai Utara, Kab. Tabalong, Kota Banjarmasin, Kab. Banjar, Kab. Tanah Bumbu, Kota Banjarbaru, Kab. Hulu Sungai Selatan","Area 2"],
+["Kalimantan Selatan","Kab. Balangan, Kab. Barito Kuala, Kab. Tanah Laut, Kab. Kotabaru","Area 3"],
+["Kalimantan Tengah","Kab. Kapuas, Kab. Pulang Pisau, Kota Palangkaraya","Area 3"],
+["Kalimantan Tengah","Kab. Seruyan, Kab. Kotawaringin Barat, Kab. Katingan, Kab. Kotawaringin Timur, Kab. Sukamara, Kab. Lamandau, Kab. Murung Raya, Kab. Barito Timur, Kab. Barito Utara, Kab. Barito Selatan, Kab. Gunung Mas","Area 4"],
+["Kalimantan Timur","Kab. Penajam Paser Utara, Kota Balikpapan, Kab. Paser, Kab. Kutai Kartanegara, Kota Samarinda, Kota Bontang, Kab. Berau, Kab. Kutai Timur, Kab. Kutai Barat, Kab. Mahakam Ulu","Area 4"],
+["Kalimantan Utara","Kab. Tana Tidung, Kab. Malinau, Kab. Bulungan, Kota Tarakan, Kab. Nunukan","Area 4"],
+["Gorontalo","Kab. Pahuwato, Kab. Boalemo, Kab. Gorontalo, Kota Gorontalo, Kab. Gorontalo Utara, Kab. Bone Bolango","Area 4"],
+["Sulawesi Barat","Kab. Mamuju Tengah","Area 2"],
+["Sulawesi Barat","Kab. Majene, Kab. Polewali Mandar, Kab. Mamuju Utara","Area 3"],
+["Sulawesi Barat","Kab. Mamuju, Kab. Mamasa","Area 4"],
+["Sulawesi Selatan","Kab. Barru, Kota Pare Pare, Kab. Pinrang","Area 2"],
+["Sulawesi Selatan","Kab. Sinjai, Kab. Enrekang, Kab. Sidenreng Rappang, Kab. Luwu Timur, Kab. Soppeng, Kab. Tana Toraja","Area 3"],
+["Sulawesi Selatan","Kab. Kepulauan Selayar, Kab. Takalar, Kab. Jeneponto, Kab. Bulukumba, Kab. Pangkajene Kepulauan, Kota Makassar, Kab. Gowa, Kab. Maros, Kab. Bone, Kab. Wajo, Kab. Luwu, Kab. Luwu Utara, Kota Palopo, Kab. Toraja Utara","Area 4"],
+["Sulawesi Tengah","Kab. Banggai Kepulauan, Kab. Banggai Laut, Kota Palu, Kab. Toli Toli, Kab. Tojo Una Una, Kab. Morowali, Kab. Morowali Utara","Area 3"],
+["Sulawesi Tengah","Kab. Banggai, Kab. Parigi Moutong, Kab. Donggala, Kab. Sigi, Kab. Poso, Kab. Buol","Area 4"],
+["Sulawesi Tenggara","Kab. Konawe Kepulauan, Kab. Konawe Utara, Kab. Buton Utara, Kab. Wakatobi","Area 2"],
+["Sulawesi Tenggara","Kota Bau Bau, Kab. Muna, Kab. Buton Selatan, Kab. Buton Tengah, Kab. Muna Barat","Area 3"],
+["Sulawesi Tenggara","Kab. Kolaka, Kab. Kolaka Utara, Kab. Konawe, Kab. Konawe Selatan, Kota Kendari, Kab. Kolaka Timur, Kab. Buton, Kab. Bombana","Area 4"],
+["Sulawesi Utara","Kab. Bolaang Mongondow, Kab. Bolaang Mongondow Selatan, Kota Kotamobagu, Kab. Minahasa Selatan, Kab. Bolaang Mongondow Timur, Kab. Minahasa Tenggara, Kab. Bolaang Mongondow Utara, Kota Tomohon, Kab. Minahasa, Kota Manado, Kab. Minahasa Utara, Kota Bitung, Kab. Kepulauan Sangihe, Kab. Kepulauan Talaud, Kab. Siau Tagulandang Biaro","Area 4"],
+["Bali","Kab. Jembrana, Kab. Buleleng","Area 1"],
+["Bali","Kab. Badung, Kab. Karangasem, Kab. Tabanan, Kab. Bangli, Kab. Gianyar, Kab. Klungkung, Kota Denpasar","Area 2"],
+["Nusa Tenggara Barat","Kab. Lombok Barat, Kab. Lombok Timur, Kota Mataram, Kab. Lombok Tengah, Kab. Lombok Utara, Kab. Sumbawa Barat, Kab. Sumbawa, Kota Bima, Kab. Dompu","Area 2"],
+["Nusa Tenggara Barat","Kab. Bima","Area 4"],
+["Nusa Tenggara Timur","Kab. Alor, Kota Kupang, Kab. Kupang, Kab. Malaka, Kab. Manggarai Barat, Kab. Timor Tengah Selatan, Kab. Belu, Kab. Sikka, Kab. Timor Tengah Utara, Kab. Lembata, Kab. Manggarai Timur, Kab. Ende, Kab. Sumba Barat Daya, Kab. Rote Ndao, Kab. Nagekeo, Kab. Flores Timur, Kab. Ngada, Kab. Sumba Tengah, Kab. Manggarai, Kab. Sumba Barat, Kab. Sumba Timur, Kab. Sabu Raijua","Area 4"],
+["Maluku","Kab. Maluku Tenggara Barat, Kab. Kepulauan Aru, Kota Tual, Kab. Seram Bagian Barat, Kab. Maluku Tengah, Kab. Seram Bagian Timur, Kota Ambon, Kab. Maluku Tenggara, Kab. Maluku Barat Daya, Kab. Buru Selatan, Kab. Buru","Area 1"],
+["Maluku Utara","Kab. Halmahera Barat, Kab. Halmahera Utara, Kab. Kepulauan Sula, Kab. Halmahera Timur, Kab. Pulau Taliabu, Kab. Halmahera Selatan, Kota Tidore Kepulauan, Kota Ternate, Kab. Halmahera Tengah, Kab. Pulau Morotai","Area 2"],
+["Papua","Kab. Asmat, Kab. Jayapura, Kab. Mimika, Kab. Keerom, Kab. Biak Numfor, Kota Jayapura, Kab. Kepulauan Yapen, Kab. Boven Digoel, Kab. Merauke, Kab. Deiyai, Kab. Dogiyai, Kab. Intan Jaya, Kab. Jayawijaya, Kab. Lanny Jaya, Kab. Mamberamo Raya, Kab. Mamberamo Tengah, Kab. Mappi, Kab. Nabire, Kab. Nduga, Kab. Paniai, Kab. Pegunungan Bintang, Kab. Puncak, Kab. Puncak Jaya, Kab. Sarmi, Kab. Supiori, Kab. Tolikara, Kab. Waropen, Kab. Yahukimo, Kab. Yalimo","Area 1"],
+["Papua Barat","Kab. Teluk Bintuni, Kab. Sorong Selatan, Kab. Sorong, Kab. Teluk Wondama, Kota Sorong, Kab. Manokwari, Kab. Fak Fak, Kab. Kaimana, Kab. Manokwari Selatan, Kab. Maybrat, Kab. Pegunungan Arfak, Kab. Raja Ampat, Kab. Tambrauw","Area 1"]
+];
+
+const records = raw.flatMap(([province, list, area]) => list.split(",").map(city => ({
+  province: province.trim(), city: city.trim(), area
+})));
+const provinceEl = document.getElementById("province");
+const cityEl = document.getElementById("city");
+const searchEl = document.getElementById("search");
+const resultEl = document.getElementById("result");
+const emptyEl = document.getElementById("empty");
+const tableBody = document.getElementById("tableBody");
+const norm = s => s.toLocaleLowerCase("id").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ").trim();
+const provinces = [...new Set(records.map(r=>r.province))].sort((a,b)=>a.localeCompare(b,"id"));
+provinces.forEach(p=>{const o=document.createElement("option");o.value=p;o.textContent=p;provinceEl.appendChild(o)});
+document.getElementById("totalCities").textContent = records.length.toLocaleString("id-ID");
+
+function showResult(matches, queryLabel) {
+  resultEl.innerHTML = "";
+  if (!matches.length) {
+    resultEl.classList.remove("show"); emptyEl.style.display="block";
+    emptyEl.textContent = queryLabel ? `Wilayah "${queryLabel}" belum ditemukan dalam daftar.` : "Pilih wilayah atau ketik nama kota/kabupaten untuk mulai mengecek.";
+    return;
+  }
+  emptyEl.style.display="none"; resultEl.classList.add("show");
+  if(matches.length===1){
+    const r=matches[0];
+    const top=document.createElement("div");top.className="result-top";
+    const h=document.createElement("h2");h.textContent=r.city;
+    const badge=document.createElement("span");badge.className="area "+r.area.toLowerCase().replace(" ","");badge.textContent=r.area;
+    top.append(h,badge);resultEl.appendChild(top);
+    const p=document.createElement("p");p.textContent="Provinsi: "+r.province+". Area ini mengikuti data yang tersedia pada daftar website.";resultEl.appendChild(p);
+  } else {
+    const top=document.createElement("div");top.className="result-top";
+    const h=document.createElement("h2");h.textContent=`Ditemukan ${matches.length} wilayah`;
+    top.appendChild(h);resultEl.appendChild(top);
+    const p=document.createElement("p");p.textContent="Pilih nama wilayah yang tepat dari hasil berikut:";resultEl.appendChild(p);
+    const list=document.createElement("div");list.style.cssText="display:grid;gap:8px;margin-top:12px";
+    matches.slice(0,60).forEach(r=>{
+      const row=document.createElement("button");row.type="button";row.style.cssText="display:flex;justify-content:space-between;align-items:center;gap:12px;text-align:left;background:#142238;color:#eaf2ff;border:1px solid #30435c;padding:12px;border-radius:10px;cursor:pointer";
+      const name=document.createElement("span");name.textContent=r.city+" · "+r.province;
+      const badge=document.createElement("strong");badge.textContent=r.area;badge.style.cssText="white-space:nowrap;color:#93c5fd";
+      row.append(name,badge);row.addEventListener("click",()=>{provinceEl.value=r.province;updateCities(r.city);searchEl.value="";showResult([r]);});list.appendChild(row);
+    });resultEl.appendChild(list);
+    if(matches.length>60){const more=document.createElement("p");more.textContent="Menampilkan 60 hasil pertama. Tambahkan kata kunci agar lebih spesifik.";resultEl.appendChild(more)}
+  }
+}
+function updateCities(selected=""){
+  const p=provinceEl.value;cityEl.innerHTML="";
+  if(!p){cityEl.disabled=true;cityEl.add(new Option("Pilih provinsi terlebih dahulu",""));return}
+  cityEl.disabled=false;cityEl.add(new Option("Pilih kota/kabupaten...",""));
+  const cities=records.filter(r=>r.province===p).sort((a,b)=>a.city.localeCompare(b.city,"id"));
+  cities.forEach(r=>cityEl.add(new Option(r.city,r.city)));
+  if(selected)cityEl.value=selected;
+}
+provinceEl.addEventListener("change",()=>{searchEl.value="";updateCities();resultEl.classList.remove("show");emptyEl.style.display="block";emptyEl.textContent="Sekarang pilih kota/kabupaten.";});
+cityEl.addEventListener("change",()=>{if(!cityEl.value)return;const matches=records.filter(r=>r.province===provinceEl.value&&r.city===cityEl.value);showResult(matches);});
+searchEl.addEventListener("input",()=>{
+  const q=norm(searchEl.value);
+  if(!q){resultEl.classList.remove("show");emptyEl.style.display="block";emptyEl.textContent="Pilih wilayah atau ketik nama kota/kabupaten untuk mulai mengecek.";return}
+  const matches=records.filter(r=>norm(r.city).includes(q)||norm(r.province).includes(q));
+  showResult(matches,searchEl.value);
+});
+document.getElementById("reset").addEventListener("click",()=>{provinceEl.value="";updateCities();searchEl.value="";resultEl.classList.remove("show");emptyEl.style.display="block";emptyEl.textContent="Pilih wilayah atau ketik nama kota/kabupaten untuk mulai mengecek.";});
+records.slice().sort((a,b)=>a.province.localeCompare(b.province,"id")||a.city.localeCompare(b.city,"id")).forEach(r=>{
+  const tr=document.createElement("tr");[r.province,r.city,r.area].forEach(v=>{const td=document.createElement("td");td.textContent=v;tr.appendChild(td)});tableBody.appendChild(tr);
+});
+</script>
+</body>
+</html>
